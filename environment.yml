@@ -1,0 +1,8 @@
+name: althack
+channels:
+- !!python/unicode
+  'defaults'
+dependencies:
+- python=2.7
+- pip:
+  - gtts==1.2.2
