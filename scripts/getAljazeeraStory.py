@@ -1,4 +1,5 @@
 import sys
+from urlparse import urlparse, urlunparse
 from bs4 import BeautifulSoup
 import requests
 import codecs
@@ -26,11 +27,13 @@ class Event(object):
   def add_link(self, link):
     self.links.append(link)
     r = requests.get(link)
+    o = urlparse(link)
     # if 
     s = BeautifulSoup(r.text, 'html.parser')
     body = s.find('div', class_='main-article-body')
     for img in body.select('.main-article-media-img'):
-      self.add_media(img.attrs['data-src'])
+      imgurl = urlunparse([o.scheme, o.netloc, img.attrs['data-src'], '', '', ''])
+      self.add_media(imgurl)
 
 URL = 'http://www.aljazeera.com/news/2017/06/qatar-diplomatic-crisis-latest-updates-170605105550769.html'
 
