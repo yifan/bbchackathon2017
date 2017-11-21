@@ -5,8 +5,9 @@ import requests
 import codecs
 
 class Event(object):
-  def __init__(self, topic):
+  def __init__(self, topic, date):
     self.topic = topic
+    self.date = date
     self.source = []
     self.text = []
     self.media = []
@@ -43,13 +44,16 @@ content = r.text
 soup = BeautifulSoup(content, 'html.parser')
 article = soup.find('div', class_='article-p-wrapper')
 events = []
+eventdate = ""
 for item in article.children:
-  if item.name == 'h2':
-    event = Event(item.text)
+  if item.name == 'div' and 'article-date-separator' in item.attrs['class']:
+    eventdate = item.text
+  elif item.name == 'h2':
+    event = Event(item.text, eventdate)
     events.append(event)
   elif events and item.name == 'ul':
     events[-1].add_source(item)
 
 o = codecs.getwriter('utf-8')(sys.stdout)
 for event in events:
-  print >>o, event.topic, "\t", event.media[0] if event.media else ""
+  print >>o, event.topic, "\t", event.media[0] if event.media else " ", "\t", event.date
