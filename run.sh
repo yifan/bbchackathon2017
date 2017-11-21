@@ -8,10 +8,17 @@ rm -fr data output.txt data_aljazeera
 python scripts/getAljazeeraStory.py   > tmp$$
 cat tmp$$ | awk -F "\t" '{print $1}' > story.txt 
 cat tmp$$ | awk -F "\t" '{print $2}' > story_images.txt 
+
+perl -e '
+while (<>) {
+s/[^a-zA-Z0-9:]+/ /g;
+print "$_\n";
+}'    <story.txt  > story.clean.txt 
+
 rm -fr tmp$$
 data=data_aljazeera
 mkdir -p $data
-nl story.txt | while read id txt2; do
+nl story.clean.txt | while read id txt2; do
      txt=$(echo $txt2 | tr '\r' ' ' | sed 's: $::')
      echo "Processing: TEXT ${txt}"
      echo "Processing: ID ${id}"
