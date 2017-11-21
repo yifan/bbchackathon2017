@@ -8,6 +8,8 @@ import argparse
 parser = argparse.ArgumentParser(prog="getStory.py",
                                      usage="%(prog)s [options] [arguments]")
 
+parser.add_argument("--debug", type=bool, default=False,
+                    help="print debug information")
 parser.add_argument("--min-articles", type=int, default=3, 
                     help="minimal number of articles required for a story")
 parser.add_argument("term", type=str, help='term to be used in search')
@@ -30,11 +32,14 @@ for j, hit in enumerate(res['hits']['hits']):
   if story['summary'] == "":
     continue
 
-  print '=' * 40
+  if args.debug: print '=' * 40
   print story['title']
-  print '-'*4
-  print story['summary']
-  print '-'*20
+  if args.debug: print '-'*4
+  if args.debug: print story['summary']
+  if args.debug: print '-'*20
+
+  if not args.debug:
+    continue
 
   for i,mediaItem in enumerate(items):
     print i
