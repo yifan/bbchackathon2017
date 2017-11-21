@@ -6,3 +6,4 @@ dependencies:
 - python=2.7
 - pip:
   - gtts==1.2.2
+  - moviepy==0.2.3.2
