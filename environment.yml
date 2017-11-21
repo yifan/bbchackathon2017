@@ -7,3 +7,7 @@ dependencies:
 - pip:
   - gtts==1.2.2
   - moviepy==0.2.3.2
+  - beautifulsoup4
+  - elasticsearch
+  - elasticsearch-dsl
+  - requests
