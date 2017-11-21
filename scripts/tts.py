@@ -20,7 +20,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 	
     tts = gTTS(text=args.inputString,lang='en')
-    filename = args.outputAudio+'.wav'
+    filename = args.outputAudio+'.mp3'
     tts.save(filename)
 
 

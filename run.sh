@@ -24,12 +24,16 @@ nl story.clean.txt | while read id txt2; do
      echo "Processing: ID ${id}"
      python scripts/google_image_search.py -n 5 "$txt" $data/$id
      python scripts/tts.py "$txt" "$data/$id"
+     sox "$data"/$id.mp3 "$data"/$id.wav
+     rm -fr "$data"/$id.mp3
 done
 
 nl story_images.txt | grep [0-9] |  while read id image; do
     echo "Getting image: $id $image"
     wget $image -O $data/$id/0.jpg
 done
-    
+
+find $data -name *.jpg | while read x; do identify $x > /dev/null || rm $x ; done
+
 
 rm -fr output.txt
