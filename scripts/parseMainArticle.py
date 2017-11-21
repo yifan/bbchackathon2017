@@ -49,5 +49,4 @@ for item in article.children:
 
 o = codecs.getwriter('utf-8')(sys.stdout)
 for event in events:
-  print >>o, event.topic
-  print >>o, event.media[0] if event.media else ""
+  print >>o, event.topic, "\t", event.media[0] if event.media else ""
