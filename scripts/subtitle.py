@@ -5,6 +5,9 @@ from pycaption import SRTWriter
 
 stories = codecs.open('story.txt', 'r', 'utf-8').readlines()
 
+def microsec(t):
+  return t*1000000
+
 offset = 0.0
 captions = []
 for line in sys.stdin:
@@ -18,7 +21,7 @@ for line in sys.stdin:
   duration = float(tokens[2])
   print duration
   text=stories[index]
-  cap = Caption(offset, offset+duration, [CaptionNode.create_text(text)])
+  cap = Caption(microsec(offset), microsec(offset+duration), [CaptionNode.create_text(text)])
   offset += duration
   captions.append(cap)
 
