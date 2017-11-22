@@ -6,6 +6,7 @@ rm -fr data output.txt data_aljazeera
 
 #process aljazeera data 
 python scripts/getAljazeeraStory.py   > tmp$$
+#python scripts/getSUMMAStory_validated.py brexit > tmp$$
 cat tmp$$ | awk -F "\t" '{print $1}' > story.txt 
 cat tmp$$ | awk -F "\t" '{print $2}' > story_images.txt 
 
@@ -33,7 +34,13 @@ nl story_images.txt | grep [0-9] |  while read id image; do
     wget $image -O $data/$id/0.jpg
 done
 
-find $data -name *.jpg | while read x; do identify $x > /dev/null || rm $x ; done
+find $data -name *.jpg | while read x; do file $x | grep -q JPEG || rm $x ; done
 
 
 rm -fr output.txt
+
+bash img2vid.sh | python scripts/subtitle.py
+
+python scripts/makeAudio.py
+
+ffmpeg -i video.mp4 -i output.wav -strict -2 -vf subtitles=output.srt final.mp4

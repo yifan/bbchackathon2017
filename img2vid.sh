@@ -1,7 +1,9 @@
 #!/bin/bash
 
 touch list.txt
-for DIRNAME in $(find data_aljazeera -depth 1 -type d); do
+num=$(cat story.txt | wc -l)
+for ((i=1;i<=$num;i++)); do
+  DIRNAME=data_aljazeera/$i
   WAVFILE=$DIRNAME.wav
   DURATION=$(soxi -D $WAVFILE)
   NUMIMGS=$(ls $DIRNAME/*.jpg | wc -l)
