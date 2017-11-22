@@ -4,7 +4,7 @@ touch list.txt
 for DIRNAME in $(find data_aljazeera -depth 1 -type d); do
   WAVFILE=$DIRNAME.wav
   DURATION=$(soxi -D $WAVFILE)
-  NUMIMGS=$(ls $DIRNAME | wc -l)
+  NUMIMGS=$(ls $DIRNAME/*.jpg | wc -l)
   IMGDUR=$(echo "scale=2;c=$DURATION / $NUMIMGS;if (c > 1.5) { print c; } else { print 1.5; }" | bc -l)
   CORRECT_DURATION=$(echo "scale=2; $IMGDUR * $NUMIMGS" | bc -l)
   echo $DIRNAME $IMGDUR $CORRECT_DURATION
